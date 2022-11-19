@@ -1,32 +1,17 @@
-import pandas as pd
-import numpy as np
-from sklearn import datasets
-from sklearn.model_selection import train_test_split
-import statistics
-from math import pi
-from math import e
-from sklearn import preprocessing
+from initDatabase import *
+from createModel import *
+from predictor import *
 
+X_test, X_train, y_test, y_train = init_database(1000)
 
-data = pd.read_csv('MonkeyPoxData.csv')
-target = data.MonkeyPox
-print(data.columns.values)
+newsVzer, newsTfidf, clf = create_model(X_test, X_train, y_test, y_train)
 
-train = data.iloc[:int(len(data.index)/2), :]
-test = data.iloc[int(len(data.index)/2):, :]
+# True news
+text = 'Qatar will host the world cup 2022'
 
-train = train.drop(['Patient_ID'], axis=1)
-test = test.drop(['Patient_ID'], axis=1)
+pred = predictor(newsVzer, newsTfidf, clf, text)
 
-labelEncoder = preprocessing.LabelEncoder()
-labelEncoder.fit(train['MonkeyPox'])
-labelEncoder.fit(test['MonkeyPox'])
-train['MonkeyPox'] = labelEncoder.transform(train['MonkeyPox'])
-test['MonkeyPox'] = labelEncoder.transform(test['MonkeyPox'])
-
-print(train[["Systemic Illness", "MonkeyPox"]].groupby(['Systemic Illness'], as_index=False).mean().sort_values(by='MonkeyPox',ascending=False))
-
-#X_train,X_test,y_train,y_test=train_test_split(data,target,test_size=0.3)
+print(pred)
 
 
 
