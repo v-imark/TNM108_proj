@@ -13,4 +13,4 @@ Create new branch:
 git checkout -b branchname
 
 # Dataset:
-Monkey-Pox PATIENTS Dataset. https://www.kaggle.com/datasets/muhammad4hmed/monkeypox-patients-dataset
+https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
