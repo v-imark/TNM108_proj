@@ -1,54 +1,54 @@
 import tkinter as tk
 
-checked = False
+
+class Gui:
+    def __init__(self, master, input_text):
+        self.master = master
+        self.input_text = input_text
+        self.frame_title = tk.Frame(master)
+        self.frame_body = tk.Frame(master)
+
+        self.label_header = tk.Label(
+            master=self.frame_title,
+            text="Real or fake news",
+            width=100,
+        )
+        self.label_header.pack()
+
+        self.entry_text = tk.Text(
+            master=self.frame_body,
+            height=25,
+        )
+        self.entry_text.pack(pady=10)
+
+        self.button = tk.Button(
+            master=self.frame_body,
+            text='Predict',
+            width=25,
+            height=5,
+            command=lambda: self.buttonpress()
+        )
+        self.button.pack()
+
+        self.frame_title.pack()
+        self.frame_body.pack(pady=10)
+
+    def buttonpress(self):
+        self.input_text = self.entry_text.get("1.0", 'end-1c')
+        return self.input_text
 
 
-def buttonpress():
-    print(checked)
+news = 'hej'
+root = tk.Tk()
 
+gui = Gui(root, news)
 
-def checkboxpress():
-    global checked
-    checked = not checked
-
-
-def gui(b_func, c_func):
-    window = tk.Tk()
-
-    frame_title = tk.Frame(bg="black")
-    frame_body = tk.Frame(bg='blue')
-
-    label_header = tk.Label(
-        master=frame_title,
-        text="Hej Gabriel",
-        foreground="white",
-        background="red",
-        width=25,
-        height=10
-    )
-    label_header.pack()
-
-    button = tk.Button(
-        master=frame_body,
-        text='Click this!',
-        width=25,
-        height=5,
-        bg="blue",
-        fg="yellow",
-        command=b_func
-    )
-    button.pack()
-
-    checkbox_st = tk.Checkbutton(
-        frame_body,
-        text='Sore Throat',
-        command=c_func)
-    checkbox_st.pack()
-
-    frame_title.pack()
-    frame_body.pack()
-
-    window.mainloop()
-
-
-gui(buttonpress, checkboxpress)
+# Loopen stannar inte efter man stängt fönster :(
+LOOP_ACTIVE = True
+while LOOP_ACTIVE:
+    root.update()
+    root.update_idletasks()
+    if news == gui.input_text:
+        continue
+    news = gui.input_text
+    print(news)
