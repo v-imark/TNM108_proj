@@ -1,7 +1,10 @@
-def predictor(newsVzer, newsTfidf, clf, text):
-    news_new_counts = newsVzer.transform([text])  # turn text into count vector
-    news_new_tfidf = newsTfidf.transform(news_new_counts)  # turn into tfidf vector
+from initDatabase import *
 
-    pred = clf.predict(news_new_tfidf)
 
+def predictor(newsVzer, newsTfidf: CountVectorizer, clf, text):
+    print(text)
+    tfidf_text = tfidf_vectorize_test([text], newsVzer, newsTfidf)
+
+    pred = clf.predict(tfidf_text)
+    print(pred)
     return pred

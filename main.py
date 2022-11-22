@@ -1,17 +1,23 @@
 from initDatabase import *
 from createModel import *
-from predictor import *
+from gui import *
+import tkinter
 
 X_test, X_train, y_test, y_train = init_database(1000)
 
-newsVzer, newsTfidf, clf = create_model(X_test, X_train, y_test, y_train)
+newsVzer = CountVectorizer(min_df=2, tokenizer=nltk.word_tokenize, max_features=3000)
+newsTfidf = TfidfTransformer()
 
-# True news
-text = 'Qatar will host the world cup 2022'
+train_tfidf = tfidf_vectorize_train(X_train, newsVzer, newsTfidf)
+test_tfidf = tfidf_vectorize_test(X_test, newsVzer, newsTfidf)
 
-pred = predictor(newsVzer, newsTfidf, clf, text)
+MNB = mnb(y_test, y_train, train_tfidf, test_tfidf)
+LR = lr(y_test, y_train, train_tfidf, test_tfidf)
 
-print(pred)
+root = tk.Tk()
+gui = Gui(root, newsVzer, newsTfidf, LR)
+root.mainloop()
+
 
 
 
