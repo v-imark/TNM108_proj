@@ -1,7 +1,10 @@
+import string
 
+import nltk
 import pandas as pd
-
+import re
 from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
 
 
@@ -17,12 +20,35 @@ def init_database(n):
 
     data = pd.merge(true_data[0:n], fake_data[0:n], how="outer")
 
-    print(data.head())
-    print(len(data))
+    print('Data length', len(data))
+    #data["title"] = data["title"].apply(app_stopwords)
 
-    STOPWORDS = stopwords.words('english')
-
-    X_train, X_test, y_train, y_test = train_test_split(data["text"], data["target"], random_state=12)
+    X_train, X_test, y_train, y_test = train_test_split(data["title"], data["target"], random_state=12)
 
     return X_train, X_test, y_train, y_test
 
+
+def tfidf_vectorize_train(X, vzer, tfidfer):
+    counts = vzer.fit_transform(X)
+    tfidf = tfidfer.fit_transform(counts)
+
+    return tfidf
+
+
+def tfidf_vectorize_test(X, vzer: CountVectorizer, tfidfer):
+    counts = vzer.transform(X)
+    tfidf = tfidfer.transform(counts)
+
+    return tfidf
+
+
+def app_stopwords(text):
+    text = text.lower()
+    text = re.sub(r'\[.*?\]', '', text)
+    text = re.sub(r"\\W", " ", text)
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)
+    text = re.sub(r'<.*?>+', '', text)
+    text = re.sub(r'[%s]' % re.escape(string.punctuation), '', text)
+    text = re.sub(r'\n', '', text)
+    text = re.sub(r'\w*\d\w*', '', text)
+    return text
