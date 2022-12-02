@@ -36,6 +36,18 @@ class Gui:
         )
         self.button.pack()
 
+        self.buttonClear = tk.Button(
+            master=self.frame_body,
+            text='Clear text',
+            width=15,
+            height=3,
+            bg='#f00',
+            fg='#fff',
+            border=2,
+            command=lambda: self.entry_text.delete("1.0", "end")
+        )
+        self.buttonClear.pack()
+
         self.frame_title.pack()
         self.frame_body.pack(pady=10)
 
@@ -47,3 +59,5 @@ class Gui:
             print('Fake news')
         else:
             print('Real News')
+
+
