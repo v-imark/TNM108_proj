@@ -21,9 +21,9 @@ def init_database(n):
     data = pd.merge(true_data[0:n], fake_data[0:n], how="outer")
 
     print('Data length', len(data))
-    #data["title"] = data["title"].apply(app_stopwords)
+    #6data["title"] = data["title"].apply(app_stopwords)
 
-    X_train, X_test, y_train, y_test = train_test_split(data["title"], data["target"], random_state=12)
+    X_train, X_test, y_train, y_test = train_test_split(data["text"], data["target"], random_state=12)
 
     return X_train, X_test, y_train, y_test
 

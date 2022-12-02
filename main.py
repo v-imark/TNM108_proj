@@ -5,7 +5,7 @@ import tkinter
 
 X_test, X_train, y_test, y_train = init_database(1000)
 
-newsVzer = CountVectorizer(min_df=2, tokenizer=nltk.word_tokenize, max_features=3000)
+newsVzer = CountVectorizer(min_df=2, tokenizer=nltk.word_tokenize, stop_words='english', max_features=3000)
 newsTfidf = TfidfTransformer()
 
 train_tfidf = tfidf_vectorize_train(X_train, newsVzer, newsTfidf)
