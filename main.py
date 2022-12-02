@@ -1,21 +1,19 @@
+import pickle
+
 from initDatabase import *
 from createModel import *
 from gui import *
 import tkinter
 
-X_test, X_train, y_test, y_train = init_database(1000)
 
-newsVzer = CountVectorizer(min_df=2, tokenizer=nltk.word_tokenize, max_features=3000)
-newsTfidf = TfidfTransformer()
-
-train_tfidf = tfidf_vectorize_train(X_train, newsVzer, newsTfidf)
-test_tfidf = tfidf_vectorize_test(X_test, newsVzer, newsTfidf)
-
-MNB = mnb(y_test, y_train, train_tfidf, test_tfidf)
-LR = lr(y_test, y_train, train_tfidf, test_tfidf)
+# load the model from disk
+MNB = pickle.load(open('multinomialNB.sav', 'rb'))
+LR = pickle.load(open('linearRegression.sav', 'rb'))
+newsVzer = pickle.load(open('vzer.sav', 'rb'))
+newsTfidf = pickle.load(open('tfidf.sav', 'rb'))
 
 root = tk.Tk()
-gui = Gui(root, newsVzer, newsTfidf, LR)
+gui = Gui(root, newsVzer, newsTfidf, MNB, LR)
 root.mainloop()
 
 
