@@ -43,7 +43,7 @@ class Gui:
             height=3,
             bg='#f00',
             fg='#fff',
-            border=2,
+            border= 2,
             command=lambda: self.entry_text.delete("1.0", "end")
         )
         self.buttonClear.pack()
