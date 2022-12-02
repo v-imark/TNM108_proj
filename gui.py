@@ -7,9 +7,10 @@ from initDatabase import app_stopwords
 
 
 class Gui:
-    def __init__(self, master, vzer: CountVectorizer, tfidf, clf, ):
+    def __init__(self, master, vzer: CountVectorizer, tfidf, MNB, LR):
         self.master = master
-        self.prediction = tk.StringVar()
+        self.MNB_prediction = tk.StringVar()
+        self.LR_prediction = tk.StringVar()
         self.frame_title = tk.Frame(master)
         self.frame_body1 = tk.Frame(master)
         self.frame_body2 = tk.Frame(master)
@@ -23,12 +24,19 @@ class Gui:
         )
         self.label_header.pack()
 
-        self.answer_text = tk.Label(
+        self.MNB_answer_text = tk.Label(
             master=self.frame_body1,
-            textvariable=self.prediction,
+            textvariable=self.MNB_prediction,
             font='Arial',
         )
-        self.answer_text.pack()
+        self.MNB_answer_text.pack()
+
+        self.LR_answer_text = tk.Label(
+            master=self.frame_body1,
+            textvariable=self.LR_prediction,
+            font='Arial',
+        )
+        self.LR_answer_text.pack()
 
         self.entry_text = tk.Text(
             master=self.frame_body2,
@@ -41,7 +49,7 @@ class Gui:
             text='Predict',
             width=25,
             height=5,
-            command=lambda: self.buttonpress(vzer, tfidf, clf)
+            command=lambda: self.buttonpress(vzer, tfidf, MNB, LR)
         )
         self.button.pack()
 
@@ -49,15 +57,22 @@ class Gui:
         self.frame_body1.pack(pady=10)
         self.frame_body2.pack(pady=10)
 
-    def buttonpress(self, vzer: CountVectorizer, tfidf, clf):
+    def buttonpress(self, vzer: CountVectorizer, tfidf, MNB, LR):
         text = self.entry_text.get("1.0", 'end-1c')
         # text = app_stopwords(text)
-        prediction = predictor(vzer, tfidf, clf, text)
+        prediction = predictor(vzer, tfidf, MNB, text)
         if prediction[0] == 0:
             print('Fake news')
-            self.prediction.set('This is FAKE news')
-            self.answer_text.config(fg='red')
+            self.MNB_prediction.set('MNB: This is FAKE news')
+            self.MNB_answer_text.config(fg='red')
         else:
-            print('Real News')
-            self.prediction.set('This is REAL news')
-            self.answer_text.config(fg='green')
+            self.MNB_prediction.set('MNB: This is REAL news')
+            self.MNB_answer_text.config(fg='green')
+
+        prediction = predictor(vzer, tfidf, LR, text)
+        if prediction[0] == 0:
+            self.LR_prediction.set('LR: This is FAKE news')
+            self.LR_answer_text.config(fg='red')
+        else:
+            self.LR_prediction.set('LR: This is REAL news')
+            self.LR_answer_text.config(fg='green')

@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
 
 
-def init_database(n):
+def init_database():
     true_data = pd.read_csv('news/true/True.csv')
     fake_data = pd.read_csv('news/fake/Fake.csv')
 
@@ -18,10 +18,10 @@ def init_database(n):
     true_data = true_data.assign(target=1)
     fake_data = fake_data.assign(target=0)
 
-    data = pd.merge(true_data[0:n], fake_data[0:n], how="outer")
+    data = pd.merge(true_data, fake_data, how="outer")
 
     print('Data length', len(data))
-    #6data["title"] = data["title"].apply(app_stopwords)
+    # data["title"] = data["title"].apply(app_stopwords)
 
     X_train, X_test, y_train, y_test = train_test_split(data["text"], data["target"], random_state=12)
 
