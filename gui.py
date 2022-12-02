@@ -54,7 +54,7 @@ class Gui:
         self.button.pack()
 
         self.buttonClear = tk.Button(
-            master=self.frame_body,
+            master=self.frame_body2,
             text='Clear text',
             width=15,
             height=3,
@@ -63,7 +63,7 @@ class Gui:
             border= 2,
             command=lambda: self.entry_text.delete("1.0", "end")
         )
-        self.buttonClear.pack()
+        self.buttonClear.pack(pady=10)
 
         self.frame_title.pack()
         self.frame_body1.pack(pady=10)
