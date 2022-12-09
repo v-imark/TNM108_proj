@@ -83,9 +83,9 @@ class Gui:
 
         prediction = predictor(vzer, tfidf, LR, text)
         if prediction[0] == 0:
-            self.LR_prediction.set('LR: This is FAKE news')
+            self.LR_prediction.set('RF: This is FAKE news')
             self.LR_answer_text.config(fg='red')
         else:
-            self.LR_prediction.set('LR: This is REAL news')
+            self.LR_prediction.set('RF: This is REAL news')
             self.LR_answer_text.config(fg='green')
 

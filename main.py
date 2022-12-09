@@ -13,6 +13,7 @@ newsVzer = pickle.load(open('vzer.sav', 'rb'))
 newsTfidf = pickle.load(open('tfidf.sav', 'rb'))
 
 root = tk.Tk()
+root.geometry("800x750")
 gui = Gui(root, newsVzer, newsTfidf, MNB, LR)
 root.mainloop()
 
